@@ -56,7 +56,8 @@ export default class App extends Component {
 
   decrypt = data => {
     const test = CryptoJS.AES.decrypt(data, 'k');
-    var originalText = bytes.toString(CryptoJS.enc.Utf8);
+    var originalText = test.toString(CryptoJS.enc.Utf8);
+    // console.log(originalText);
     return originalText;
   };
 
@@ -65,6 +66,7 @@ export default class App extends Component {
     console.log('RESULT: ' + result);
     const desccription =
       'QR code (abbreviated from Quick Response Code) is the trademark for a type of matrix barcode (or two-dimensional barcode) first designed in 1994 for the automotive industry in Japan. A barcode is a machine-readable optical label that contains information about the item to which it is attached. In practice, QR codes often contain data for a locator, identifier, or tracker that points to a website or application. A QR code uses four standardized encoding modes (numeric, alphanumeric, byte/binary, and kanji) to store data efficiently; extensions may also be used.';
+    const data = null;
     return (
       <View style={styles.scrollViewStyle}>
         <Fragment>
@@ -92,7 +94,6 @@ export default class App extends Component {
               <View style={ScanResult ? styles.scanCardView : styles.cardView}>
                 <Text>Type : {result.type}</Text>
                 <Text>Result : {this.decrypt(result.data)}</Text>
-                {console.log(result.data)}
                 <Text numberOfLines={1}>RawData: {result.rawData}</Text>
                 <TouchableOpacity
                   onPress={this.scanAgain}
