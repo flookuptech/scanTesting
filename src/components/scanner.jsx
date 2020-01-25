@@ -6,10 +6,24 @@ import {
   Linking,
   View,
   StyleSheet,
+  UIManager
 } from 'react-native';
-
+import { Image } from "react-native-animatable";
+import metrics from "../configs/metrics";
+import BrandLogo from "../assets/brand-logo/brandLogo.png";
+import FlookupGif from "../assets/brand-logo/flookupGif.gif";
 import CryptoJS from 'crypto-js';
 import QRCodeScanner from 'react-native-qrcode-scanner';
+import FormButtons from './formButtons';
+
+
+
+const IMAGE_WIDTH = metrics.DEVICE_WIDTH * 0.8;
+
+if (Platform.OS === "android") {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
 
 class Scanner extends Component {
   state = {
@@ -72,14 +86,35 @@ class Scanner extends Component {
     return (
       <View style={styles.scrollViewStyle}>
         <Fragment>
-          <StatusBar barStyle="dark-content" />
-          <Text style={styles.textTitle}>Finance Lookup Advisors</Text>
+          <StatusBar backgroundColor="#009933" barStyle="light-content" />
+          {/* <View style={styles.scrollViewStyle}>
+            <Fragment>
+            <StatusBar barStyle="dark-content" /> */}
+          {/* <Text style={styles.textTitle}>Finance Lookup Advisors</Text> */}
           {!scan && !ScanResult && (
-            <TouchableOpacity
-              onPress={this.activeQR}
-              style={styles.buttonTouchable}>
-              <Text style={styles.buttonTextStyle}>Click to Scan!</Text>
-            </TouchableOpacity>
+            <View style={styles.container}>
+              <Image
+                source={BrandLogo}
+                style={styles.brandLogo}
+                animation={"bounceIn"}
+                duration={1900}
+                delay={1200}
+              />
+              <Image
+                source={FlookupGif}
+                style={styles.flookupGif}
+                animation={"bounceIn"}
+                // duration={100}
+                delay={50}
+              />
+              <FormButtons
+                onPress={this.activeQR}
+                //style={styles.buttonTouchable}>
+                // <Text style={styles.buttonTextStyle}>Click to Scan!</Text>
+                text={'Click to Scan !!'}
+              />
+            {/* </TouchableOpacity> */}
+            </View>
           )}
 
           {ScanResult && (
@@ -89,13 +124,15 @@ class Scanner extends Component {
                 <Text>Type : {result.type}</Text>
                 <Text>Result : {this.decrypt(result.data)}</Text>
                 {/* <Text numberOfLines={1}>RawData: {result.rawData}</Text> */}
-                <TouchableOpacity
+                <FormButtons
                   onPress={this.scanAgain}
-                  style={styles.buttonTouchable}>
-                  <Text style={styles.buttonTextStyle}>
+                  //style={styles.buttonTouchable}>
+                  text={'Click to Scan Again !!'}
+                />
+                  {/* <Text style={styles.buttonTextStyle}>
                     Click to Scan again!
                   </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             </Fragment>
           )}
@@ -110,22 +147,26 @@ class Scanner extends Component {
               onRead={this.onSuccess}
               bottomContent={
                 <View>
-                  <TouchableOpacity
-                    style={styles.buttonTouchable}
-                    onPress={() => this.scanner.reactivate()}>
-                    <Text style={styles.buttonTextStyle}>Got it!</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.buttonTouchable}
-                    onPress={() => this.setState({scan: false})}>
-                    <Text style={styles.buttonTextStyle}>Close Scanner</Text>
-                  </TouchableOpacity>
+                  <FormButtons
+                    //style={styles.buttonTouchable}
+                    onPress={() => this.scanner.reactivate()}
+                    text={'Got it !'}
+                    /* <Text style={styles.buttonTextStyle}>Got it!</Text> */
+                  />
+                  <FormButtons
+                    //style={styles.buttonTouchable}
+                    onPress={() => this.setState({scan: false})}
+                    title={'Close Scanner'}
+                  />
+                    {/* <Text style={styles.buttonTextStyle}>Close Scanner</Text> */}
+                  {/* </TouchableOpacity> */}
                 </View>
               }
             />
           )}
-        </Fragment>
-      </View>
+      </Fragment>
+    </View>
+
     );
   }
 }
@@ -226,6 +267,35 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    width: metrics.DEVICE_WIDTH,
+    height: metrics.DEVICE_HEIGHT,
+    paddingTop: 10,
+    backgroundColor: "white"
+  },
+  brandLogo: {
+    flex: 1,
+    height: null,
+    width: IMAGE_WIDTH * 2,
+    alignSelf: "center",
+    resizeMode: "contain"
+  },
+  flookupGif: {
+    flex: 1,
+    height: null,
+    width: IMAGE_WIDTH,
+    alignSelf: "center",
+    resizeMode: "contain",
+    marginVertical: 10
+  },
+  bottom: {
+    backgroundColor: "#009933"
+  },
+  viewPager: {
+    flex: 1
+  }
 });
 
 export default Scanner;
