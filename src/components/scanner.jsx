@@ -6,24 +6,21 @@ import {
   Linking,
   View,
   StyleSheet,
-  UIManager
+  UIManager,
 } from 'react-native';
-import { Image } from "react-native-animatable";
-import metrics from "../configs/metrics";
-import BrandLogo from "../assets/brand-logo/brandLogo.png";
-import FlookupGif from "../assets/brand-logo/flookupGif.gif";
+import {Image} from 'react-native-animatable';
+import metrics from '../configs/metrics.jsx';
+import BrandLogo from '../assets/brand-logo/brandLogo.png';
+import FlookupGif from '../assets/brand-logo/flookupGif.gif';
 import CryptoJS from 'crypto-js';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import FormButtons from './formButtons';
-
-
+import FormButtons from './formButtons.jsx';
 
 const IMAGE_WIDTH = metrics.DEVICE_WIDTH * 0.8;
 
-if (Platform.OS === "android") {
+if (Platform.OS === 'android') {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
-
 
 class Scanner extends Component {
   state = {
@@ -74,36 +71,47 @@ class Scanner extends Component {
     });
   };
 
-  decrypt = data => {
-    const test = CryptoJS.AES.decrypt(data, 'k');
+  decrypt = (data, key) => {
+    const dataToDecrypt = CryptoJS.AES.decrypt(key, 'ff');
+    const decryptedKey = dataToDecrypt.toString(CryptoJS.enc.Utf8);
+    console.log('Key: ' + decryptedKey);
+
+    const value = data.split('@')[1];
+    const test = CryptoJS.AES.decrypt(value, decryptedKey);
     var originalText = test.toString(CryptoJS.enc.Utf8);
-    // console.log(originalText);
+    console.log(originalText);
     return originalText;
   };
 
   render() {
     const {scan, ScanResult, result} = this.state;
+    // console.log('object');
+
+    const passThisAsKey = 'U2FsdGVkX1884QnFLPvgmNJi0C4dOuIEFITwTMX27pc=';
+    // console.log(
+    //   this.decrypt(
+    //     'flookup@U2FsdGVkX1+j+y8uMiIqd057MGi29npdVAu7m2xaW8PdryvSY5G+ub7l9WGiT9iPwFW0DnzZHsG4EhlzdK7awArXoLdPPfQWmCGFamsIW7+9EIAvXgzzRFEE8S5QY9AUIkBnh92vSYxmBgn2zs+6zvRpISk9zqJkay1dBo3Gqzpk8pWhnKsf8zxEwMvFpIY9VIyI/mj4QMjYYqF8NBtE2D8N3BQaZ2Y6sgqmxDJVRmw=',
+    //     passThisAsKey,
+    //   ),
+    // );
+
     return (
       <View style={styles.scrollViewStyle}>
         <Fragment>
           <StatusBar backgroundColor="#009933" barStyle="light-content" />
-          {/* <View style={styles.scrollViewStyle}>
-            <Fragment>
-            <StatusBar barStyle="dark-content" /> */}
-          {/* <Text style={styles.textTitle}>Finance Lookup Advisors</Text> */}
           {!scan && !ScanResult && (
             <View style={styles.container}>
               <Image
                 source={BrandLogo}
                 style={styles.brandLogo}
-                animation={"bounceIn"}
+                animation={'bounceIn'}
                 duration={1900}
                 delay={1200}
               />
               <Image
                 source={FlookupGif}
                 style={styles.flookupGif}
-                animation={"bounceIn"}
+                animation={'bounceIn'}
                 // duration={100}
                 delay={50}
               />
@@ -113,7 +121,7 @@ class Scanner extends Component {
                 // <Text style={styles.buttonTextStyle}>Click to Scan!</Text>
                 text={'Click to Scan !!'}
               />
-            {/* </TouchableOpacity> */}
+              {/* </TouchableOpacity> */}
             </View>
           )}
 
@@ -122,14 +130,14 @@ class Scanner extends Component {
               <Text style={styles.textTitle1}>Result!</Text>
               <View style={ScanResult ? styles.scanCardView : styles.cardView}>
                 <Text>Type : {result.type}</Text>
-                <Text>Result : {this.decrypt(result.data)}</Text>
+                <Text>Result : {this.decrypt(result.data, passThisAsKey)}</Text>
                 {/* <Text numberOfLines={1}>RawData: {result.rawData}</Text> */}
                 <FormButtons
                   onPress={this.scanAgain}
                   //style={styles.buttonTouchable}>
                   text={'Click to Scan Again !!'}
                 />
-                  {/* <Text style={styles.buttonTextStyle}>
+                {/* <Text style={styles.buttonTextStyle}>
                     Click to Scan again!
                   </Text>
                 </TouchableOpacity> */}
@@ -158,15 +166,14 @@ class Scanner extends Component {
                     onPress={() => this.setState({scan: false})}
                     title={'Close Scanner'}
                   />
-                    {/* <Text style={styles.buttonTextStyle}>Close Scanner</Text> */}
+                  {/* <Text style={styles.buttonTextStyle}>Close Scanner</Text> */}
                   {/* </TouchableOpacity> */}
                 </View>
               }
             />
           )}
-      </Fragment>
-    </View>
-
+        </Fragment>
+      </View>
     );
   }
 }
@@ -269,33 +276,33 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    flexDirection: "column",
+    flexDirection: 'column',
     width: metrics.DEVICE_WIDTH,
     height: metrics.DEVICE_HEIGHT,
     paddingTop: 10,
-    backgroundColor: "white"
+    backgroundColor: 'white',
   },
   brandLogo: {
     flex: 1,
     height: null,
     width: IMAGE_WIDTH * 2,
-    alignSelf: "center",
-    resizeMode: "contain"
+    alignSelf: 'center',
+    resizeMode: 'contain',
   },
   flookupGif: {
     flex: 1,
     height: null,
     width: IMAGE_WIDTH,
-    alignSelf: "center",
-    resizeMode: "contain",
-    marginVertical: 10
+    alignSelf: 'center',
+    resizeMode: 'contain',
+    marginVertical: 10,
   },
   bottom: {
-    backgroundColor: "#009933"
+    backgroundColor: '#009933',
   },
   viewPager: {
-    flex: 1
-  }
+    flex: 1,
+  },
 });
 
 export default Scanner;

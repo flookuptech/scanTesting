@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {View, StyleSheet} from 'react-native';
 
-import Scanner from './src/components/scanner';
+import Scanner from './src/components/scanner.jsx';
 
 class App extends Component {
   state = {};
