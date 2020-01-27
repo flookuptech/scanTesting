@@ -4,9 +4,9 @@ import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
 import {View} from 'react-native-animatable';
 
-import metrics from '../../configs/metrics.jsx';
-import CustomTextInput from '../../components/customTextInput.jsx';
-import CustomButton from '../../components/customButton.jsx';
+import metrics from '../configs/metrics';
+import CustomTextInput from '../components/customTextInput';
+import CustomButton from '../components/customButton';
 
 class LoginForm extends Component {
   state = {

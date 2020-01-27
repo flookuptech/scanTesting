@@ -1,3 +1,5 @@
+
+ 
 import React, {Component, Fragment} from 'react';
 import {
   TouchableOpacity,
@@ -7,6 +9,7 @@ import {
   View,
   StyleSheet,
   UIManager,
+  TextInput
 } from 'react-native';
 import {Image} from 'react-native-animatable';
 import metrics from '../configs/metrics.jsx';
@@ -15,6 +18,9 @@ import FlookupGif from '../assets/brand-logo/flookupGif.gif';
 import CryptoJS from 'crypto-js';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import FormButtons from './formButtons.jsx';
+import { Item, Input, Icon, Container, Header, Content} from 'native-base';
+
+
 
 const IMAGE_WIDTH = metrics.DEVICE_WIDTH * 0.8;
 
@@ -27,6 +33,7 @@ class Scanner extends Component {
     scan: false,
     ScanResult: false,
     result: null,
+    passkey: ""
   };
   // constructor(props) {
   //   super(props);
@@ -61,7 +68,8 @@ class Scanner extends Component {
   activeQR = () => {
     this.setState({
       scan: true,
-    });
+    }); 
+    console.log('on button click' +this.state.passkey);
   };
 
   scanAgain = () => {
@@ -86,8 +94,8 @@ class Scanner extends Component {
   render() {
     const {scan, ScanResult, result} = this.state;
     // console.log('object');
-
-    const passThisAsKey = 'U2FsdGVkX1884QnFLPvgmNJi0C4dOuIEFITwTMX27pc=';
+    const passThisAsKey = this.state.passkey;
+    console.log('passkey' + passThisAsKey);
     // console.log(
     //   this.decrypt(
     //     'flookup@U2FsdGVkX1+j+y8uMiIqd057MGi29npdVAu7m2xaW8PdryvSY5G+ub7l9WGiT9iPwFW0DnzZHsG4EhlzdK7awArXoLdPPfQWmCGFamsIW7+9EIAvXgzzRFEE8S5QY9AUIkBnh92vSYxmBgn2zs+6zvRpISk9zqJkay1dBo3Gqzpk8pWhnKsf8zxEwMvFpIY9VIyI/mj4QMjYYqF8NBtE2D8N3BQaZ2Y6sgqmxDJVRmw=',
@@ -115,6 +123,14 @@ class Scanner extends Component {
                 // duration={100}
                 delay={50}
               />
+              <TextInput
+                style={{height: 40}}
+                name="passkey"
+                placeholder="Type here to translate!"
+                onChangeText={(passkey) => this.setState({passkey})}
+                value={this.state.passkey}
+                required
+              />
               <FormButtons
                 onPress={this.activeQR}
                 //style={styles.buttonTouchable}>
@@ -133,11 +149,11 @@ class Scanner extends Component {
                 <Text>Result : {this.decrypt(result.data, passThisAsKey)}</Text>
                 {/* <Text numberOfLines={1}>RawData: {result.rawData}</Text> */}
                 <FormButtons
-                  onPress={this.scanAgain}
                   //style={styles.buttonTouchable}>
                   text={'Click to Scan Again !!'}
-                />
+                  />
                 {/* <Text style={styles.buttonTextStyle}>
+                  onPress={this.scanAgain}
                     Click to Scan again!
                   </Text>
                 </TouchableOpacity> */}
