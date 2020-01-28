@@ -1,26 +1,19 @@
-
- 
 import React, {Component, Fragment} from 'react';
 import {
-  TouchableOpacity,
   Text,
   StatusBar,
   Linking,
-  View,
   StyleSheet,
-  UIManager,
-  TextInput
+  UIManager
 } from 'react-native';
-import {Image} from 'react-native-animatable';
+import {View, Image} from 'react-native-animatable';
 import metrics from '../configs/metrics.jsx';
 import BrandLogo from '../assets/brand-logo/brandLogo.png';
 import FlookupGif from '../assets/brand-logo/flookupGif.gif';
 import CryptoJS from 'crypto-js';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import FormButtons from './formButtons.jsx';
-import { Item, Input, Icon, Container, Header, Content} from 'native-base';
-
-
+import { Item, Button, Icon, InputGroup, Input, Container, Header, Content, Form, Left} from 'native-base';
 
 const IMAGE_WIDTH = metrics.DEVICE_WIDTH * 0.8;
 
@@ -33,16 +26,10 @@ class Scanner extends Component {
     scan: false,
     ScanResult: false,
     result: null,
-    passkey: ""
+    passkey: "",
+    passKeyError: ""
   };
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     scan: false,
-  //     ScanResult: false,
-  //     result: null,
-  //   };
-  // }
+
 
   onSuccess = e => {
     const check = e.data.substring(0, 4);
@@ -93,16 +80,9 @@ class Scanner extends Component {
 
   render() {
     const {scan, ScanResult, result} = this.state;
-    // console.log('object');
     const passThisAsKey = this.state.passkey;
     console.log('passkey' + passThisAsKey);
-    // console.log(
-    //   this.decrypt(
-    //     'flookup@U2FsdGVkX1+j+y8uMiIqd057MGi29npdVAu7m2xaW8PdryvSY5G+ub7l9WGiT9iPwFW0DnzZHsG4EhlzdK7awArXoLdPPfQWmCGFamsIW7+9EIAvXgzzRFEE8S5QY9AUIkBnh92vSYxmBgn2zs+6zvRpISk9zqJkay1dBo3Gqzpk8pWhnKsf8zxEwMvFpIY9VIyI/mj4QMjYYqF8NBtE2D8N3BQaZ2Y6sgqmxDJVRmw=',
-    //     passThisAsKey,
-    //   ),
-    // );
-
+  
     return (
       <View style={styles.scrollViewStyle}>
         <Fragment>
@@ -115,29 +95,35 @@ class Scanner extends Component {
                 animation={'bounceIn'}
                 duration={1900}
                 delay={1200}
-              />
+              />  
               <Image
                 source={FlookupGif}
                 style={styles.flookupGif}
                 animation={'bounceIn'}
-                // duration={100}
+                duration={100} 
                 delay={50}
               />
-              <TextInput
-                style={{height: 40}}
-                name="passkey"
-                placeholder="Type here to translate!"
-                onChangeText={(passkey) => this.setState({passkey})}
-                value={this.state.passkey}
-                required
-              />
+              <Item rounded style={{marginLeft: 25, marginRight: 25, marginTop:70}}>
+                    <Icon name="key" style={{fontSize: 30, padding: 5, marginLeft:20, color: 'green'}}/>
+                    <Input placeholder="Please enter the passkey" style={{fontSize: 20}}
+                      onChangeText={passkey => this.setState({ passkey })}
+                      value={this.state.passkey}
+                    />
+              </Item>
+              {!!this.state.passKeyError && (
+                      <Text style={{ color: "red", textAlign:'center', marginTop: 5, fontSize: 18 }}>{this.state.passKeyError}</Text>
+              )}
               <FormButtons
-                onPress={this.activeQR}
-                //style={styles.buttonTouchable}>
-                // <Text style={styles.buttonTextStyle}>Click to Scan!</Text>
-                text={'Click to Scan !!'}
-              />
-              {/* </TouchableOpacity> */}
+                text={'Scan'}
+                onPress={() => {
+                  if (this.state.passkey.trim() === "") {
+                    this.setState(() => ({ passKeyError: "PassKey required." }));
+                  } else {
+                    this.setState(() => ({ passKeyError: null }));
+                    this.activeQR();
+                  }
+                }}
+              /> 
             </View>
           )}
 
@@ -147,16 +133,10 @@ class Scanner extends Component {
               <View style={ScanResult ? styles.scanCardView : styles.cardView}>
                 <Text>Type : {result.type}</Text>
                 <Text>Result : {this.decrypt(result.data, passThisAsKey)}</Text>
-                {/* <Text numberOfLines={1}>RawData: {result.rawData}</Text> */}
                 <FormButtons
-                  //style={styles.buttonTouchable}>
-                  text={'Click to Scan Again !!'}
-                  />
-                {/* <Text style={styles.buttonTextStyle}>
+                  text={'Click to Scan Again'}
                   onPress={this.scanAgain}
-                    Click to Scan again!
-                  </Text>
-                </TouchableOpacity> */}
+                  />
               </View>
             </Fragment>
           )}
@@ -168,22 +148,15 @@ class Scanner extends Component {
               ref={node => {
                 this.scanner = node;
               }}
+              containerStyle={{marginTop: 10}}
+              cameraStyle={{height: 1, width: 412,marginTop: 8}}
               onRead={this.onSuccess}
-              bottomContent={
+              topContent={
                 <View>
-                  <FormButtons
-                    //style={styles.buttonTouchable}
-                    onPress={() => this.scanner.reactivate()}
-                    text={'Got it !'}
-                    /* <Text style={styles.buttonTextStyle}>Got it!</Text> */
-                  />
-                  <FormButtons
-                    //style={styles.buttonTouchable}
-                    onPress={() => this.setState({scan: false})}
-                    title={'Close Scanner'}
-                  />
-                  {/* <Text style={styles.buttonTextStyle}>Close Scanner</Text> */}
-                  {/* </TouchableOpacity> */}
+                    <Button transparent style={{marginBottom: 280, marginRight: 290}} onPress={() => this.setState({scan: false})}> 
+                      <Icon name="arrow-back" style={{fontSize: 35, color: 'green'}}/>
+                      <Text style={{fontSize: 20}}>Go Back</Text>
+                    </Button>                  
                 </View>
               }
             />
@@ -197,8 +170,7 @@ class Scanner extends Component {
 const styles = StyleSheet.create({
   scrollViewStyle: {
     flex: 1,
-    justifyContent: 'center',
-    // backgroundColor: '#99003d',
+    justifyContent: 'center'
   },
 
   textTitle: {
@@ -216,8 +188,6 @@ const styles = StyleSheet.create({
     color: '#009933',
   },
   cardView: {
-    //width: deviceWidth - 32,
-    //height: deviceHeight / 2,
     alignSelf: 'center',
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -236,8 +206,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   scanCardView: {
-    //width: deviceWidth - 32,
-    //height: deviceHeight / 2,
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
