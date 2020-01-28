@@ -103,14 +103,16 @@ class Scanner extends Component {
                 duration={100} 
                 delay={50}
               />
-              <Item rounded style={styles.passKeyInputItem}>
-                <Icon name="key" style={styles.passKeyIcon}/>
-                <Input placeholder="Please enter the passkey"
-                  style={styles.passKeyInput}
-                  onChangeText={passkey => this.setState({ passkey })}
-                  value={this.state.passkey}
-                />
-              </Item>
+              <View animation={'zoomIn'} delay={1200} duration={1200}>
+                <Item rounded style={styles.passKeyInputItem} >
+                  <Icon name="key" style={styles.passKeyIcon}/>
+                  <Input placeholder="Please enter the passkey"
+                    style={styles.passKeyInput}
+                    onChangeText={passkey => this.setState({ passkey })}
+                    value={this.state.passkey}
+                  />
+                </Item>
+              </View>
               {!!this.state.passKeyError && (
                       <Text style={styles.passKeyError}>{this.state.passKeyError}</Text>
               )}
