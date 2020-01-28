@@ -13,7 +13,7 @@ import FlookupGif from '../assets/brand-logo/flookupGif.gif';
 import CryptoJS from 'crypto-js';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import FormButtons from './formButtons.jsx';
-import { Item, Button, Icon, InputGroup, Input, Container, Header, Content, Form, Left} from 'native-base';
+import {Item, Button, Icon, Input} from 'native-base';
 
 const IMAGE_WIDTH = metrics.DEVICE_WIDTH * 0.8;
 
@@ -103,15 +103,16 @@ class Scanner extends Component {
                 duration={100} 
                 delay={50}
               />
-              <Item rounded style={{marginLeft: 25, marginRight: 25, marginTop:70}}>
-                    <Icon name="key" style={{fontSize: 30, padding: 5, marginLeft:20, color: 'green'}}/>
-                    <Input placeholder="Please enter the passkey" style={{fontSize: 20}}
-                      onChangeText={passkey => this.setState({ passkey })}
-                      value={this.state.passkey}
-                    />
+              <Item rounded style={styles.passKeyInputItem}>
+                <Icon name="key" style={styles.passKeyIcon}/>
+                <Input placeholder="Please enter the passkey"
+                  style={styles.passKeyInput}
+                  onChangeText={passkey => this.setState({ passkey })}
+                  value={this.state.passkey}
+                />
               </Item>
               {!!this.state.passKeyError && (
-                      <Text style={{ color: "red", textAlign:'center', marginTop: 5, fontSize: 18 }}>{this.state.passKeyError}</Text>
+                      <Text style={styles.passKeyError}>{this.state.passKeyError}</Text>
               )}
               <FormButtons
                 text={'Scan'}
@@ -148,14 +149,12 @@ class Scanner extends Component {
               ref={node => {
                 this.scanner = node;
               }}
-              containerStyle={{marginTop: 10}}
-              cameraStyle={{height: 1, width: 412,marginTop: 8}}
               onRead={this.onSuccess}
               topContent={
                 <View>
-                    <Button transparent style={{marginBottom: 280, marginRight: 290}} onPress={() => this.setState({scan: false})}> 
-                      <Icon name="arrow-back" style={{fontSize: 35, color: 'green'}}/>
-                      <Text style={{fontSize: 20}}>Go Back</Text>
+                    <Button transparent style={styles.backButton} onPress={() => this.setState({scan: false})}> 
+                      <Icon name="arrow-back" style={styles.backIcon}/>
+                      <Text style={styles.backText}>Go Back</Text>
                     </Button>                  
                 </View>
               }
@@ -168,18 +167,50 @@ class Scanner extends Component {
 }
 
 const styles = StyleSheet.create({
+
+  passKeyInputItem:{
+    marginLeft: 25,
+    marginRight: 25,
+    marginTop:70
+  },
+
+  passKeyIcon:{
+    fontSize: 30,
+    padding: 5,
+    marginLeft:20,
+    color: 'green'
+  },
+
+  passKeyInput:{
+    fontSize: 20
+  },
+
+  passKeyError:{
+    color: "red", 
+    textAlign:'center', 
+    marginTop: 5, 
+    fontSize: 18
+  },
+
+  backButton:{
+    marginBottom: 400, 
+    marginRight: 290
+  },
+  
+  backIcon:{
+    fontSize: 35, 
+    color: 'green'
+  },
+
+  backText:{
+    fontSize: 20
+  },
+
   scrollViewStyle: {
     flex: 1,
     justifyContent: 'center'
   },
 
-  textTitle: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    textAlign: 'center',
-    padding: 16,
-    color: '#009933',
-  },
   textTitle1: {
     fontWeight: 'bold',
     fontSize: 18,
@@ -187,6 +218,7 @@ const styles = StyleSheet.create({
     padding: 16,
     color: '#009933',
   },
+
   cardView: {
     alignSelf: 'center',
     justifyContent: 'flex-start',
@@ -223,41 +255,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: 'white',
   },
-  buttonScan: {
-    width: 42,
-  },
-  descText: {
-    padding: 16,
-    textAlign: 'justify',
-    fontSize: 16,
-  },
 
-  highlight: {
-    fontWeight: '700',
-  },
-
-  centerText: {
-    flex: 1,
-    fontSize: 18,
-    padding: 32,
-    color: '#777',
-  },
-  textBold: {
-    fontWeight: '500',
-    color: '#000',
-  },
-  buttonTouchable: {
-    fontSize: 21,
-    backgroundColor: '#009933',
-    marginTop: 32,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 44,
-  },
-  buttonTextStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
   container: {
     flex: 1,
     flexDirection: 'column',
@@ -266,6 +264,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     backgroundColor: 'white',
   },
+
   brandLogo: {
     flex: 1,
     height: null,
@@ -273,6 +272,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     resizeMode: 'contain',
   },
+
   flookupGif: {
     flex: 1,
     height: null,
@@ -281,12 +281,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     marginVertical: 10,
   },
-  bottom: {
-    backgroundColor: '#009933',
-  },
-  viewPager: {
-    flex: 1,
-  },
+
 });
 
 export default Scanner;
