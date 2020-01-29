@@ -6,7 +6,7 @@ import {View} from 'react-native-animatable';
 
 import metrics from '../configs/metrics';
 import CustomTextInput from '../components/customTextInput';
-import CustomButton from '../components/customButton';
+import CustomButton from '../components/';
 
 class LoginForm extends Component {
   state = {
