@@ -4,9 +4,10 @@ import {
   StatusBar,
   Linking,
   StyleSheet,
-  UIManager
+  UIManager,
+  View
 } from 'react-native';
-import {View, Image} from 'react-native-animatable';
+import {Image} from 'react-native-animatable';
 import metrics from '../configs/metrics.jsx';
 import BrandLogo from '../assets/brand-logo/brandLogo.png';
 import FlookupGif from '../assets/brand-logo/flookupGif.gif';
@@ -14,6 +15,8 @@ import CryptoJS from 'crypto-js';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import FormButtons from './formButtons.jsx';
 import {Item, Button, Input, Icon} from 'native-base';
+import { Container, Header, Left, Body, Center, Title } from 'native-base';
+
 //import Icon from 'react-native-vector-icons/FontAwesome';
 // import FontAwesome, { SolidIcons, RegularIcons, BrandIcons } from 'react-native-fontawesome';
 
@@ -87,8 +90,7 @@ class Scanner extends Component {
     console.log('passkey' + passThisAsKey);
   
     return (
-      <View style={styles.scrollViewStyle}>
-        <Fragment>
+      <Fragment>
           <StatusBar backgroundColor="#009933" barStyle="light-content" />
           {!scan && !ScanResult && (
             <View style={styles.container}>
@@ -148,43 +150,29 @@ class Scanner extends Component {
           )}
 
           {scan && (
-            <QRCodeScanner
-            reactivate={true}
-            showMarker={true}
-            ref={node => {
-              this.scanner = node;
-            }}
-            cameraStyle={{height:1, width: 360, marginTop: 5}}
-            onRead={this.onSuccess}
-            topContent={
-              <View style={{marginBottom: 230}}>
-                  <Button transparent style={styles.backButton} onPress={() => this.setState({scan: false})}> 
-                    <Icon name="arrow-back" style={styles.backIcon}/>
-                    <Text style={styles.backText}>Go Back</Text>
-                  </Button>                  
+              <View style={{flex:1,backgroundColor:'#3q455c',width:"100%"}}>
+                  <Header style={{backgroundColor: '#009933'}}>
+                    <Left>
+                      <Button transparent onPress={() => this.setState({scan: false})}>
+                        <Icon name='arrow-back' />
+                      </Button>
+                    </Left>
+                    <Body>
+                        <Title style={{marginLeft: 40}}>Scanner</Title>
+                    </Body>
+                  </Header>
+                  <QRCodeScanner
+                  reactivate={true}
+                  showMarker={true}
+                  ref={node => {
+                    this.scanner = node;
+                  }}
+                  cameraStyle={{height:1, width: 360, marginTop: 5}}
+                  onRead={this.onSuccess}
+                  />
               </View>
-            }
-          />
-            // <QRCodeScanner
-            //   reactivate={true}
-            //   showMarker={true}
-            //   ref={node => {
-            //     this.scanner = node;
-            //   }}
-            //   onRead={this.onSuccess}
-            //   cameraStyle={{height:1, width: 360, marginTop: 5}}
-            //   topContent={
-            //     <View style={{marginBottom: 230}}> 
-            //         <Button transparent style={styles.backButton} onPress={() => this.setState({scan: false})}> 
-            //           <Icon name="arrow-back" style={styles.backIcon}/>
-            //           <Text style={styles.backText}>Go Back</Text>
-            //         </Button>                  
-            //     </View>
-            //   }
-            // />
           )}
         </Fragment>
-      </View>
     );
   }
 }
@@ -215,8 +203,7 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
 
-   backButton:{
-     //marginBottom: 5000, 
+   backButton:{ 
     marginRight: 240
    },
   
