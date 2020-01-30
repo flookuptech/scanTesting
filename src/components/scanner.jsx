@@ -15,7 +15,7 @@ import CryptoJS from 'crypto-js';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import FormButtons from './formButtons.jsx';
 import {Item, Button, Input, Icon} from 'native-base';
-import { Container, Header, Left, Body, Center, Title } from 'native-base';
+import {Header, Left, Body,Title } from 'native-base';
 
 //import Icon from 'react-native-vector-icons/FontAwesome';
 // import FontAwesome, { SolidIcons, RegularIcons, BrandIcons } from 'react-native-fontawesome';
@@ -167,7 +167,7 @@ class Scanner extends Component {
                   ref={node => {
                     this.scanner = node;
                   }}
-                  cameraStyle={{height:1, width: 360, marginTop: 5}}
+                  //cameraStyle={{height:1, width: 360, marginTop: 5}}
                   onRead={this.onSuccess}
                   />
               </View>
