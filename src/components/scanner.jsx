@@ -5,9 +5,8 @@ import {
   Linking,
   StyleSheet,
   UIManager,
-  View
 } from 'react-native';
-import {Image} from 'react-native-animatable';
+import {View, Image} from 'react-native-animatable';
 import metrics from '../configs/metrics.jsx';
 import BrandLogo from '../assets/brand-logo/brandLogo.png';
 import FlookupGif from '../assets/brand-logo/flookupGif.gif';
@@ -15,7 +14,7 @@ import CryptoJS from 'crypto-js';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import FormButtons from './formButtons.jsx';
 import {Item, Button, Input, Icon} from 'native-base';
-import {Header, Left, Body,Title } from 'native-base';
+import {Header, Left, Body, Title, Content, Card, CardItem} from 'native-base';
 
 //import Icon from 'react-native-vector-icons/FontAwesome';
 // import FontAwesome, { SolidIcons, RegularIcons, BrandIcons } from 'react-native-fontawesome';
@@ -136,17 +135,31 @@ class Scanner extends Component {
           )}
 
           {ScanResult && (
-            <Fragment>
-              <Text style={styles.textTitle1}>Result!</Text>
-              <View style={ScanResult ? styles.scanCardView : styles.cardView}>
-                <Text>Type : {result.type}</Text>
-                <Text>Result : {this.decrypt(result.data, passThisAsKey)}</Text>
+            <View style={{flex:1,backgroundColor:'#3q455c',width:"100%"}}>
+              <Header style={{backgroundColor: '#009933'}}>
+                <Body>
+                    <Title style={{marginLeft: 140}}>Result</Title>
+                </Body>
+              </Header>
+              <Content padder>
+                <Card style={{marginBottom: 25}}>
+                  <CardItem header bordered>
+                    <Text style={{marginLeft: 90, fontWeight: 'bold'}}>Asset Information</Text>
+                  </CardItem>
+                  <CardItem bordered>
+                    <Body>
+                      <Text>{this.decrypt(result.data, passThisAsKey)}</Text>
+                    </Body>
+                  </CardItem>
+                  <CardItem footer bordered>
+                  </CardItem>
+                </Card>
                 <FormButtons
-                  text={'Click to Scan Again'}
+                  text={'Scan Again'}
                   onPress={this.scanAgain}
-                  />
-              </View>
-            </Fragment>
+                />
+              </Content>
+            </View>
           )}
 
           {scan && (
@@ -167,7 +180,6 @@ class Scanner extends Component {
                   ref={node => {
                     this.scanner = node;
                   }}
-                  //cameraStyle={{height:1, width: 360, marginTop: 5}}
                   onRead={this.onSuccess}
                   />
               </View>
@@ -201,70 +213,6 @@ const styles = StyleSheet.create({
     textAlign:'center',
     marginTop: 5, 
     fontSize: 18
-  },
-
-   backButton:{ 
-    marginRight: 240
-   },
-  
-  backIcon:{
-    fontSize: 30, 
-    color: 'green'
-  },
-
-  backText:{
-    fontSize: 20
-  },
-
-  scrollViewStyle: {
-    flex: 1,
-    justifyContent: 'center'
-  },
-
-  textTitle1: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    textAlign: 'center',
-    padding: 16,
-    color: '#009933',
-  },
-
-  cardView: {
-    alignSelf: 'center',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderRadius: 2,
-    borderColor: '#ddd',
-    borderBottomWidth: 0,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 4,
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 10,
-    backgroundColor: 'white',
-  },
-  
-  scanCardView: {
-    alignSelf: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderRadius: 2,
-    borderColor: '#ddd',
-    borderBottomWidth: 0,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 4,
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 10,
-    backgroundColor: 'white',
   },
 
   container: {
