@@ -138,17 +138,17 @@ class Scanner extends Component {
             <View style={{flex:1,backgroundColor:'#3q455c',width:"100%"}}>
               <Header style={{backgroundColor: '#009933'}}>
                 <Body>
-                    <Title style={{marginLeft: 140}}>Result</Title>
+                    <Title style={styles.headerText, {marginLeft: 135}}>RESULT</Title>
                 </Body>
               </Header>
               <Content padder>
                 <Card style={{marginBottom: 25}}>
                   <CardItem header bordered>
-                    <Text style={{marginLeft: 90, fontWeight: 'bold'}}>Asset Information</Text>
+                    <Text style={styles.cardTitle}>Asset Information</Text>
                   </CardItem>
                   <CardItem bordered>
                     <Body>
-                      <Text>{this.decrypt(result.data, passThisAsKey)}</Text>
+                      <Text style={styles.cardContent}>{this.decrypt(result.data, passThisAsKey)}</Text>
                     </Body>
                   </CardItem>
                   <CardItem footer bordered>
@@ -167,11 +167,11 @@ class Scanner extends Component {
                   <Header style={{backgroundColor: '#009933'}}>
                     <Left>
                       <Button transparent onPress={() => this.setState({scan: false})}>
-                        <Icon name='arrow-back' />
+                        <Icon name='arrow-back' style={styles.headerIcon} />
                       </Button>
                     </Left>
                     <Body>
-                        <Title style={{marginLeft: 40}}>Scanner</Title>
+                        <Title style={styles.headerText}>SCANNER</Title>
                     </Body>
                   </Header>
                   <QRCodeScanner
@@ -212,7 +212,36 @@ const styles = StyleSheet.create({
     color: "red", 
     textAlign:'center',
     marginTop: 5, 
-    fontSize: 18
+    fontSize: 18,
+    //fontFamily: 'ABeeZee-Regular'
+  },
+
+  headerText: {
+    marginLeft: 35,
+    fontFamily: 'SignikaNegative-Regular',
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+
+  headerIcon: {
+    fontSize: 30   
+  },
+
+  cardTitle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign:'center', 
+    alignSelf:'center',
+    alignContent: 'center',
+    fontWeight: 'bold',
+    fontSize: 16,
+    fontFamily: 'SignikaNegative-SemiBold',
+    marginLeft: 90
+  },
+
+  cardContent: {
+    fontSize: 15,
+    fontFamily: 'NotoSerifSC-Regular'
   },
 
   container: {
