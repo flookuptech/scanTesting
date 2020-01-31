@@ -137,14 +137,16 @@ class Scanner extends Component {
           {ScanResult && (
             <View style={{flex:1,backgroundColor:'#3q455c',width:"100%"}}>
               <Header style={{backgroundColor: '#009933'}}>
-                <Body>
-                    <Title style={styles.headerText, {marginLeft: 135}}>RESULT</Title>
+                <Body style={{ flex: 1,  justifyContent: 'center', alignItems: 'center' }}>
+                    <Title style={styles.resultHeader}>RESULT</Title>
                 </Body>
               </Header>
               <Content padder>
                 <Card style={{marginBottom: 25}}>
                   <CardItem header bordered>
-                    <Text style={styles.cardTitle}>Asset Information</Text>
+                    <Body style={{ flex: 1,  justifyContent: 'center', alignItems: 'center' }}>
+                      <Text style={styles.cardTitle}>Asset Information</Text>
+                    </Body>
                   </CardItem>
                   <CardItem bordered>
                     <Body>
@@ -223,20 +225,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
 
+  resultHeader: {
+    fontFamily: 'SignikaNegative-Regular',
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+
   headerIcon: {
     fontSize: 30   
   },
 
   cardTitle: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign:'center', 
-    alignSelf:'center',
-    alignContent: 'center',
     fontWeight: 'bold',
     fontSize: 16,
-    fontFamily: 'SignikaNegative-SemiBold',
-    marginLeft: 90
+    fontFamily: 'SignikaNegative-SemiBold'
   },
 
   cardContent: {
