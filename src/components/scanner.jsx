@@ -15,6 +15,8 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import FormButtons from './formButtons.jsx';
 import {Item, Button, Input, Icon} from 'native-base';
 import {Header, Left, Body, Title, Content, Card, CardItem} from 'native-base';
+import ErrorBoundary from 'react-native-error-boundary'
+
 
 //import Icon from 'react-native-vector-icons/FontAwesome';
 // import FontAwesome, { SolidIcons, RegularIcons, BrandIcons } from 'react-native-fontawesome';
@@ -44,17 +46,17 @@ class Scanner extends Component {
       scan: false,
       ScanResult: true,
     });
-    if (check === 'http') {
-      Linking.openURL(e.data).catch(err =>
-        console.error('An error occured', err),
-      );
-    } else {
-      this.setState({
-        result: e,
-        scan: false,
-        ScanResult: true,
-      });
-    }
+    // if (check === 'http') {
+    //   Linking.openURL(e.data).catch(err =>
+    //     console.error('An error occured', err),
+    //   );
+    // } else {
+    //   this.setState({
+    //     result: e,
+    //     scan: false,
+    //     ScanResult: true,
+    //   });
+    // }
   };
 
   activeQR = () => {
@@ -135,36 +137,39 @@ class Scanner extends Component {
           )}
 
           {ScanResult && (
-            <View style={{flex:1,backgroundColor:'#3q455c',width:"100%"}}>
-              <Header style={{backgroundColor: '#009933'}}>
-                <Body style={{ flex: 1,  justifyContent: 'center', alignItems: 'center' }}>
-                    <Title style={styles.resultHeader}>RESULT</Title>
-                </Body>
-              </Header>
-              <Content padder>
-                <Card style={{marginBottom: 25}}>
-                  <CardItem header bordered>
-                    <Body style={{ flex: 1,  justifyContent: 'center', alignItems: 'center' }}>
-                      <Text style={styles.cardTitle}>Asset Information</Text>
-                    </Body>
-                  </CardItem>
-                  <CardItem bordered>
-                    <Body>
-                      <Text style={styles.cardContent}>{this.decrypt(result.data, passThisAsKey)}</Text>
-                    </Body>
-                  </CardItem>
-                  <CardItem footer bordered>
-                  </CardItem>
-                </Card>
-                <FormButtons
-                  text={'Scan Again'}
-                  onPress={this.scanAgain}
-                />
-              </Content>
-            </View>
+            <ErrorBoundary>
+              <View style={{flex:1,backgroundColor:'#3q455c',width:"100%"}}>
+                <Header style={{backgroundColor: '#009933'}}>
+                  <Body style={{ flex: 1,  justifyContent: 'center', alignItems: 'center' }}>
+                      <Title style={styles.resultHeader}>RESULT</Title>
+                  </Body>
+                </Header>
+                <Content padder>
+                  <Card style={{marginBottom: 25}}>
+                    <CardItem header bordered>
+                      <Body style={{ flex: 1,  justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={styles.cardTitle}>Asset Information</Text>
+                      </Body>
+                    </CardItem>
+                    <CardItem bordered>
+                      <Body>
+                        <Text style={styles.cardContent}>{this.decrypt(result.data, passThisAsKey)}</Text>
+                      </Body>
+                    </CardItem>
+                    <CardItem footer bordered>
+                    </CardItem>
+                  </Card>
+                  <FormButtons
+                    text={'Scan Again'}
+                    onPress={this.scanAgain}
+                  />
+                </Content>
+              </View>
+            </ErrorBoundary>
           )}
 
           {scan && (
+            <ErrorBoundary>
               <View style={{flex:1,backgroundColor:'#3q455c',width:"100%"}}>
                   <Header style={{backgroundColor: '#009933'}}>
                     <Left>
@@ -185,6 +190,7 @@ class Scanner extends Component {
                   onRead={this.onSuccess}
                   />
               </View>
+            </ErrorBoundary>
           )}
         </Fragment>
     );
