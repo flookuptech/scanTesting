@@ -44,17 +44,17 @@ class Scanner extends Component {
       scan: false,
       ScanResult: true,
     });
-    if (check === 'http') {
-      Linking.openURL(e.data).catch(err =>
-        console.error('An error occured', err),
-      );
-    } else {
-      this.setState({
-        result: e,
-        scan: false,
-        ScanResult: true,
-      });
-    }
+    // // if (check === 'http') {
+    // //   Linking.openURL(e.data).catch(err =>
+    // //     console.error('An error occured', err),
+    // //   );
+    // // } else {
+    // //   this.setState({
+    // //     result: e,
+    // //     scan: false,
+    // //     ScanResult: true,
+    // //   });
+    // }
   };
 
   activeQR = () => {
