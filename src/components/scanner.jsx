@@ -46,17 +46,17 @@ class Scanner extends Component {
       scan: false,
       ScanResult: true,
     });
-    // if (check === 'http') {
-    //   Linking.openURL(e.data).catch(err =>
-    //     console.error('An error occured', err),
-    //   );
-    // } else {
-    //   this.setState({
-    //     result: e,
-    //     scan: false,
-    //     ScanResult: true,
-    //   });
-    // }
+    if (check === 'http') {
+      Linking.openURL(e.data).catch(err =>
+        console.error('An error occured', err),
+      );
+    } else {
+       this.setState({
+         result: e,
+         scan: false,
+         ScanResult: true,
+      });
+    }
   };
 
   activeQR = () => {
@@ -137,7 +137,6 @@ class Scanner extends Component {
           )}
 
           {ScanResult && (
-            <ErrorBoundary>
               <View style={{flex:1,backgroundColor:'#3q455c',width:"100%"}}>
                 <Header style={{backgroundColor: '#009933'}}>
                   <Body style={{ flex: 1,  justifyContent: 'center', alignItems: 'center' }}>
@@ -151,11 +150,13 @@ class Scanner extends Component {
                         <Text style={styles.cardTitle}>Asset Information</Text>
                       </Body>
                     </CardItem>
-                    <CardItem bordered>
-                      <Body>
-                        <Text style={styles.cardContent}>{this.decrypt(result.data, passThisAsKey)}</Text>
-                      </Body>
-                    </CardItem>
+                    <ErrorBoundary>
+                      <CardItem bordered>
+                        <Body>
+                          <Text style={styles.cardContent}>{this.decrypt(result.data, passThisAsKey)}</Text>
+                        </Body>
+                      </CardItem>
+                    </ErrorBoundary>
                     <CardItem footer bordered>
                     </CardItem>
                   </Card>
@@ -165,11 +166,9 @@ class Scanner extends Component {
                   />
                 </Content>
               </View>
-            </ErrorBoundary>
           )}
 
           {scan && (
-            <ErrorBoundary>
               <View style={{flex:1,backgroundColor:'#3q455c',width:"100%"}}>
                   <Header style={{backgroundColor: '#009933'}}>
                     <Left>
@@ -181,16 +180,17 @@ class Scanner extends Component {
                         <Title style={styles.headerText}>SCANNER</Title>
                     </Body>
                   </Header>
-                  <QRCodeScanner
-                  reactivate={true}
-                  showMarker={true}
-                  ref={node => {
-                    this.scanner = node;
-                  }}
-                  onRead={this.onSuccess}
-                  />
+                  <ErrorBoundary>
+                    <QRCodeScanner
+                    reactivate={true}
+                    showMarker={true}
+                    ref={node => {
+                      this.scanner = node;
+                    }}
+                    onRead={this.onSuccess}
+                    />
+                  </ErrorBoundary>
               </View>
-            </ErrorBoundary>
           )}
         </Fragment>
     );
