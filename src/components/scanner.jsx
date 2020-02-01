@@ -15,7 +15,6 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import FormButtons from './formButtons.jsx';
 import {Item, Button, Input, Icon} from 'native-base';
 import {Header, Left, Body, Title, Content, Card, CardItem} from 'native-base';
-import ErrorBoundary from 'react-native-error-boundary'
 
 
 //import Icon from 'react-native-vector-icons/FontAwesome';
@@ -150,13 +149,11 @@ class Scanner extends Component {
                         <Text style={styles.cardTitle}>Asset Information</Text>
                       </Body>
                     </CardItem>
-                    <ErrorBoundary>
-                      <CardItem bordered>
-                        <Body>
-                          <Text style={styles.cardContent}>{this.decrypt(result.data, passThisAsKey)}</Text>
-                        </Body>
-                      </CardItem>
-                    </ErrorBoundary>
+                    <CardItem bordered>
+                      <Body>
+                        <Text style={styles.cardContent}>{this.decrypt(result.data, passThisAsKey)}</Text>
+                      </Body>
+                    </CardItem>
                     <CardItem footer bordered>
                     </CardItem>
                   </Card>
@@ -180,16 +177,14 @@ class Scanner extends Component {
                         <Title style={styles.headerText}>SCANNER</Title>
                     </Body>
                   </Header>
-                  <ErrorBoundary>
-                    <QRCodeScanner
-                    reactivate={true}
-                    showMarker={true}
-                    ref={node => {
-                      this.scanner = node;
-                    }}
-                    onRead={this.onSuccess}
-                    />
-                  </ErrorBoundary>
+                  <QRCodeScanner
+                  reactivate={true}
+                  showMarker={true}
+                  ref={node => {
+                    this.scanner = node;
+                  }}
+                  onRead={this.onSuccess}
+                  />
               </View>
           )}
         </Fragment>
