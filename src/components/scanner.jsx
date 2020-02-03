@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   },
 
   passKeyIcon:{
-    fontSize: 30,
+    fontSize: 31,
     padding: 5,
     marginLeft:20,
     color: 'green'
