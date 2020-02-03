@@ -16,11 +16,6 @@ import FormButtons from './formButtons.jsx';
 import {Item, Button, Input, Icon} from 'native-base';
 import {Header, Left, Body, Title, Content, Card, CardItem} from 'native-base';
 
-
-//import Icon from 'react-native-vector-icons/FontAwesome';
-// import FontAwesome, { SolidIcons, RegularIcons, BrandIcons } from 'react-native-fontawesome';
-
-
 const IMAGE_WIDTH = metrics.DEVICE_WIDTH * 0.8;
 
 if (Platform.OS === 'android') {
@@ -45,6 +40,7 @@ class Scanner extends Component {
       scan: false,
       ScanResult: true,
     });
+
     if (check === 'http') {
       Linking.openURL(e.data).catch(err =>
         console.error('An error occured', err),
@@ -91,7 +87,7 @@ class Scanner extends Component {
   
     return (
       <Fragment>
-          <StatusBar backgroundColor="#009933" barStyle="light-content" />
+        <StatusBar backgroundColor="#009933" barStyle="light-content" />
           {!scan && !ScanResult && (
             <View style={styles.container}>
               <Image
@@ -186,8 +182,8 @@ class Scanner extends Component {
                   onRead={this.onSuccess}
                   />
               </View>
-          )}
-        </Fragment>
+          )} 
+      </Fragment>
     );
   }
 }
